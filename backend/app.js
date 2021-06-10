@@ -11,6 +11,8 @@ import cors from 'cors';
 import developers from './routes/developers.js';
 import users from './routes/users.js';
 
+import CreateFirstUser from './includes/createFirstUser.js'
+
 const PORT = process.env.PORT;
 
 /* Init Express Framework */
@@ -48,3 +50,5 @@ try {
 } catch (err) { 
     console.log(err);    
 }
+
+CreateFirstUser();

@@ -21,7 +21,14 @@ const developerSchema = new Schema({
         unique: true,
         required: [true, 'Fullname is require']
     },
-
+    assetsId: {
+        type: Object,
+        default: []
+    },
+    LicensesId: {
+        type: Object,
+        default: []
+    }
 });
 
 developerSchema.methods.toJSON = function() {
