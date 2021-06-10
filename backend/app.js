@@ -9,6 +9,7 @@ import cors from 'cors';
 
 /* Include Routes */
 import developers from './routes/developers.js';
+import users from './routes/users.js';
 
 const PORT = process.env.PORT;
 
@@ -30,6 +31,7 @@ const server = app.listen(app.get('port'), function(){
 
 /* Define Routes */
 app.use('/developers', developers);
+app.use('/users', users);
 
 // MongoDB Connection
 mongoose.set('useCreateIndex', true);

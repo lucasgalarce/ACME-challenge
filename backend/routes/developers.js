@@ -11,11 +11,13 @@ import Developers from '../models/developers.js';
 
 /* Load Functions, Locales and Config Files */
 import MyFunctions from '../includes/functions.js';
+import Config from '../includes/config.js';
 
 /* Function to Validate Session Token */
 const validateToken = (req, res, next) => {
 
 	const sessToken = req.header('sessToken');
+
 	if(!sessToken) return res.status(401).send('Access Denied');
 
 	try {
@@ -27,13 +29,13 @@ const validateToken = (req, res, next) => {
 	}
 };
 
-router.get('/fetchAllDevelopers', async (req, res) => {
+router.get('/fetchAllDevelopers', validateToken, async (req, res) => {
 
     try {
 
         /* Fetch Developers*/
         const fetchedDevelopers = await Developers.find();
-        
+
 		/* Send response OK */
 		res.status(200).json({
 			Response : true,
@@ -50,7 +52,7 @@ router.get('/fetchAllDevelopers', async (req, res) => {
     }
 }),
 
-router.post('/createDeveloper', async (req, res) => {
+router.post('/createDeveloper', validateToken, async (req, res) => {
 
     try {
         const payload = req.body;
