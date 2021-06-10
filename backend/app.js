@@ -12,6 +12,7 @@ import developers from './routes/developers.js';
 import users from './routes/users.js';
 
 import CreateFirstUser from './includes/createFirstUser.js'
+import CreateAssetsAndLicenses from './includes/createAssetsAndLicenses.js'
 
 const PORT = process.env.PORT;
 
@@ -52,3 +53,4 @@ try {
 }
 
 CreateFirstUser();
+CreateAssetsAndLicenses();

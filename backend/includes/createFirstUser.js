@@ -4,8 +4,6 @@
 import express from 'express';
 import axios from 'axios';
 
-const router = express.Router();
-
 /* Include Models & Schemas */
 import Users from '../models/users.js';
 
