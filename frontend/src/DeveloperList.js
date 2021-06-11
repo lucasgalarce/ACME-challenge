@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import "./App.css";
 
 import AssetsList from "./AssetsList.js";
+import LicensesList from "./LicensesList.js";
 
 const DeveloperList = () => {
 	const [developers, setDevelopers] = useState({});
@@ -36,7 +37,8 @@ const DeveloperList = () => {
 				<div className="card-body">
 					<h3 className="devName text-center">{developer.fullname}</h3>
 
-					<AssetsList assetsId={developer.assetsId} />
+					<AssetsList assets={developer.assets} />
+					<LicensesList licenses={developer.licenses} />
 
 					{/* lista de licenses */}
 					<div className="d-flex justify-content-center">

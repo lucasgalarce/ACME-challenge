@@ -1,27 +1,27 @@
-.assetsList {
+.assignmentsList {
     max-height: 250px;
     overflow: auto;
     list-style: none;
     padding: 0;
 }
 
-.assetsList::-webkit-scrollbar {
+.assignmentsList::-webkit-scrollbar {
     width: 5px;
 }
   
-.assetsList::-webkit-scrollbar-track {
+.assignmentsList::-webkit-scrollbar-track {
     background: #f1f1f1; 
 }
    
-.assetsList::-webkit-scrollbar-thumb {
+.assignmentsList::-webkit-scrollbar-thumb {
     background: #888; 
 }
 
-.assetsList p {
+.assignmentsList p {
     margin: 0;
 }
 
-.assetsList li {
+.assignmentsList li {
     border-bottom: 1px solid gray;
     padding: 5px 0;
 }

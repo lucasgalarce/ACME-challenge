@@ -1,100 +1,103 @@
-'use strict';
+"use strict";
 
 /* Define and load Modules */
-import express from 'express';
-import jwt from 'jsonwebtoken';
+import express from "express";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
 /* Include Models & Schemas */
-import Developers from '../models/developers.js';
+import Developers from "../models/developers.js";
 
 /* Load Functions, Locales and Config Files */
-import MyFunctions from '../includes/functions.js';
-import Config from '../includes/config.js';
-import Assets from '../models/assets.js';
-import Licenses from '../models/licenses.js';
+import MyFunctions from "../includes/functions.js";
+import Config from "../includes/config.js";
+import Assets from "../models/assets.js";
+import Licenses from "../models/licenses.js";
 
 /* Function to Validate Session Token */
 const validateToken = (req, res, next) => {
+	const sessToken = req.header("sessToken");
 
-	const sessToken = req.header('sessToken');
-
-	if(!sessToken) return res.status(401).send('Access Denied');
+	if (!sessToken) return res.status(401).send("Access Denied");
 
 	try {
 		const verified = jwt.verify(sessToken, Config.secretToken);
 		next();
-
-	} catch(error) {
+	} catch (error) {
 		res.status(400).send(error);
 	}
 };
 
-router.get('/fetchAllDevelopers', validateToken, async (req, res) => {
+router.get("/fetchAllDevelopers", validateToken, async (req, res) => {
+	try {
+		/* Fetch Developers*/
+		const fetchedDevelopers = await Developers.find();
+		const developersWithAssignments = [];
 
-    try {
+		for (let developer of fetchedDevelopers) {
+			const fetchedAssets = await Assets.find({ id: developer.assetsId });
+			const fetchedLicenses = await Licenses.find({ id: developer.licensesId });
 
-        /* Fetch Developers*/
-        const fetchedDevelopers = await Developers.find();
+			developersWithAssignments.push({
+				id: developer.id,
+				fullname: developer.fullname,
+				assets: fetchedAssets,
+				licenses: fetchedLicenses,
+			});
+		}
 
 		/* Send response OK */
 		res.status(200).json({
-			Response : true,
-			fetchedDevelopers
-        });
-        
-    } catch (err) {
-
+			Response: true,
+			fetchedDevelopers: developersWithAssignments,
+		});
+	} catch (err) {
 		/* Send response FALSE */
 		res.status(200).json({
-			Response : false,
-			Message: `${err}`
-        });
-    }
+			Response: false,
+			Message: `${err}`,
+		});
+	}
 });
 
-router.post('/createDeveloper', validateToken, async (req, res) => {
+router.post("/createDeveloper", validateToken, async (req, res) => {
+	try {
+		const payload = req.body;
 
-    try {
-        const payload = req.body;
-        
-        /* Generate Unique Id */
-        const developerId = MyFunctions.generateUniqueID();
+		/* Generate Unique Id */
+		const developerId = MyFunctions.generateUniqueID();
 
-        const newDeveloper = new Developers({
-            id: developerId,
-            fullname: payload.fullname,
-        });
+		const newDeveloper = new Developers({
+			id: developerId,
+			fullname: payload.fullname,
+		});
 
-        const saveDeveloper = await newDeveloper.save();
+		const saveDeveloper = await newDeveloper.save();
 
-        /* Return TRUE */
+		/* Return TRUE */
 		res.status(200).json({
-			Response     : true,
-			Message      : 'Developer created.',
+			Response: true,
+			Message: "Developer created.",
 			newDeveloper,
 		});
-    } catch (err) {
-
+	} catch (err) {
 		/* Send response FALSE */
 		res.status(200).json({
-			Response : false,
-			Message: `${err}`
-        });
-    }
+			Response: false,
+			Message: `${err}`,
+		});
+	}
 });
 
-router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
-
+router.post("/addAssetToDeveloper", validateToken, async (req, res) => {
 	try {
-
 		const { developerId, assetId } = req.body;
 
 		if (!developerId || !assetId) {
 			return res.status(200).json({
 				Response: false,
-				Message: 'Developer Id and Asset Id are required.'
+				Message: "Developer Id and Asset Id are required.",
 			});
 		}
 
@@ -115,9 +118,11 @@ router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 			});
 		}
 
-		const hasThisAsset = fetchedDeveloper.assetsId.some( asset => asset === assetId)
+		const hasThisAsset = fetchedDeveloper.assetsId.some(
+			(asset) => asset === assetId
+		);
 
-		if(hasThisAsset) {
+		if (hasThisAsset) {
 			return res.status(200).json({
 				Response: false,
 				Message: `Developer already have this asset`,
@@ -125,34 +130,33 @@ router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 		}
 
 		const newVal = {
-			$push : {
-				assetsId: assetId
-			}
-		}
+			$push: {
+				assetsId: assetId,
+			},
+		};
 
-		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+		const savedNewStatus = await Developers.updateOne(
+			{ id: developerId },
+			newVal
+		);
 
 		return res.status(200).json({
 			Response: true,
 			Message: `Added asset succesfull`,
 		});
-
-	} catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-
 });
 
-router.delete('/deleteAssetToDeveloper',  validateToken, async (req, res) => {
-
+router.delete("/deleteAssetToDeveloper", validateToken, async (req, res) => {
 	try {
-
 		const { developerId, assetId } = req.body;
 
 		if (!developerId || !assetId) {
 			return res.status(200).json({
 				Response: false,
-				Message: 'Developer Id and Asset Id are required.'
+				Message: "Developer Id and Asset Id are required.",
 			});
 		}
 
@@ -173,9 +177,11 @@ router.delete('/deleteAssetToDeveloper',  validateToken, async (req, res) => {
 			});
 		}
 
-		const hasThisAsset = fetchedDeveloper.assetsId.some( asset => asset === assetId)
+		const hasThisAsset = fetchedDeveloper.assetsId.some(
+			(asset) => asset === assetId
+		);
 
-		if(!hasThisAsset) {
+		if (!hasThisAsset) {
 			return res.status(200).json({
 				Response: false,
 				Message: `Developer hasn't this asset`,
@@ -183,34 +189,33 @@ router.delete('/deleteAssetToDeveloper',  validateToken, async (req, res) => {
 		}
 
 		const newVal = {
-			$pull : {
-				assetsId: assetId
-			}
-		}
+			$pull: {
+				assetsId: assetId,
+			},
+		};
 
-		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+		const savedNewStatus = await Developers.updateOne(
+			{ id: developerId },
+			newVal
+		);
 
 		return res.status(200).json({
 			Response: true,
 			Message: `Deleted asset succesfull`,
 		});
-
-	} catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-
 });
 
-router.post('/addLicenseToDeveloper',  validateToken, async (req, res) => {
-
+router.post("/addLicenseToDeveloper", validateToken, async (req, res) => {
 	try {
-
 		const { developerId, licenseId } = req.body;
 
 		if (!developerId || !licenseId) {
 			return res.status(200).json({
 				Response: false,
-				Message: 'Developer Id and License Id are required.'
+				Message: "Developer Id and License Id are required.",
 			});
 		}
 
@@ -231,9 +236,11 @@ router.post('/addLicenseToDeveloper',  validateToken, async (req, res) => {
 			});
 		}
 
-		const hasThisLicense = fetchedDeveloper.licensesId.some( license => license === licenseId)
+		const hasThisLicense = fetchedDeveloper.licensesId.some(
+			(license) => license === licenseId
+		);
 
-		if(hasThisLicense) {
+		if (hasThisLicense) {
 			return res.status(200).json({
 				Response: false,
 				Message: `Developer already have this license`,
@@ -241,34 +248,33 @@ router.post('/addLicenseToDeveloper',  validateToken, async (req, res) => {
 		}
 
 		const newVal = {
-			$push : {
-				licensesId: licenseId
-			}
-		}
+			$push: {
+				licensesId: licenseId,
+			},
+		};
 
-		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+		const savedNewStatus = await Developers.updateOne(
+			{ id: developerId },
+			newVal
+		);
 
 		return res.status(200).json({
 			Response: true,
 			Message: `Added license succesfull`,
 		});
-
-	} catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-
 });
 
-router.delete('/deleteLicenseToDeveloper',  validateToken, async (req, res) => {
-
+router.delete("/deleteLicenseToDeveloper", validateToken, async (req, res) => {
 	try {
-
 		const { developerId, licenseId } = req.body;
 
 		if (!developerId || !licenseId) {
 			return res.status(200).json({
 				Response: false,
-				Message: 'Developer Id and License Id are required.'
+				Message: "Developer Id and License Id are required.",
 			});
 		}
 
@@ -289,9 +295,11 @@ router.delete('/deleteLicenseToDeveloper',  validateToken, async (req, res) => {
 			});
 		}
 
-		const hasThisLicense = fetchedDeveloper.licensesId.some( license => license === licenseId)
+		const hasThisLicense = fetchedDeveloper.licensesId.some(
+			(license) => license === licenseId
+		);
 
-		if(!hasThisLicense) {
+		if (!hasThisLicense) {
 			return res.status(200).json({
 				Response: false,
 				Message: `Developer hasn't this license`,
@@ -299,34 +307,33 @@ router.delete('/deleteLicenseToDeveloper',  validateToken, async (req, res) => {
 		}
 
 		const newVal = {
-			$pull : {
-				licensesId: licenseId
-			}
-		}
+			$pull: {
+				licensesId: licenseId,
+			},
+		};
 
-		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+		const savedNewStatus = await Developers.updateOne(
+			{ id: developerId },
+			newVal
+		);
 
 		return res.status(200).json({
 			Response: true,
 			Message: `Deleted license succesfull`,
 		});
-
-	} catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-
 });
 
-router.put('/changeStatus',  validateToken, async (req, res) => {
-
+router.put("/changeStatus", validateToken, async (req, res) => {
 	try {
-
 		const { id, status } = req.body;
 
-		if (!id || !status ) {
+		if (!id || !status) {
 			return res.status(200).json({
 				Response: false,
-				Message: 'Id and status are required.'
+				Message: "Id and status are required.",
 			});
 		}
 
@@ -340,21 +347,20 @@ router.put('/changeStatus',  validateToken, async (req, res) => {
 		}
 
 		let newVal = {
-			$set : {
-				active: status
-			}
-		}
+			$set: {
+				active: status,
+			},
+		};
 
 		let savedNewStatus = await Developers.updateOne({ id }, newVal);
 
 		/* Clean thei assets and licenses if disabled developer */
-		if(status === 'false') {
-
+		if (status === "false") {
 			newVal = {
 				assetsId: [],
 				licensesId: [],
-			}
-	
+			};
+
 			savedNewStatus = await Developers.updateOne({ id }, newVal);
 		}
 
@@ -362,11 +368,9 @@ router.put('/changeStatus',  validateToken, async (req, res) => {
 			Response: true,
 			Message: `Developer ${fetchedDeveloper.fullname}, active: ${status}`,
 		});
-
-	} catch(e){
+	} catch (e) {
 		console.log(e);
 	}
-
 });
 
 /* Export this Module */
