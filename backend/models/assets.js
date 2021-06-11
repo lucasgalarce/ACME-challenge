@@ -12,7 +12,6 @@ const assetSchema = new Schema({
     },
     brand: {
         type: String,
-        unique: true,
         required: [true, 'Brand is require']
     },
     model: {
@@ -21,18 +20,10 @@ const assetSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ['laptop', 'keyboard', 'mouse', 'headset', 'monitor'],
+        enum: ['laptop', 'keyboard', 'mouse', 'headset', 'Monitor'],
         required: [true, 'Model is require']
     }
 });
-
-assetSchema.methods.toJSON = function() {
-    let asset = this;
-    let assetObject = asset.toObject();
-    delete assetObject.password;
-
-    return assetObject;
-}
 
 const Assets = mongoose.model('Assets', assetSchema);
 export default Assets;

@@ -72,7 +72,6 @@ router.post('/register', async (req, res) => {
     try {
         /* Get the object from request */
         const payload = req.body;
-        console.log(payload)
 
         /* Check if username/email already exists */
         const checkIfEmailExists = await Users.findOne({ email : payload.email });

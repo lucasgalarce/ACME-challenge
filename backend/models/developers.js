@@ -25,19 +25,11 @@ const developerSchema = new Schema({
         type: Object,
         default: []
     },
-    LicensesId: {
+    licensesId: {
         type: Object,
         default: []
     }
 });
-
-developerSchema.methods.toJSON = function() {
-    let developer = this;
-    let developerObject = developer.toObject();
-    delete developerObject.password;
-
-    return developerObject;
-}
 
 const Developers = mongoose.model('Developers', developerSchema);
 export default Developers;
