@@ -10,6 +10,7 @@ import cors from 'cors';
 /* Include Routes */
 import developers from './routes/developers.js';
 import users from './routes/users.js';
+import assets from './routes/assets.js';
 
 import CreateFirstUser from './includes/createFirstUser.js'
 import CreateAssetsAndLicenses from './includes/createAssetsAndLicenses.js'
@@ -35,6 +36,7 @@ const server = app.listen(app.get('port'), function(){
 /* Define Routes */
 app.use('/developers', developers);
 app.use('/users', users);
+app.use('/assets', assets);
 
 // MongoDB Connection
 mongoose.set('useCreateIndex', true);

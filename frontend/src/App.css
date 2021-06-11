@@ -1,0 +1,37 @@
+.assetsList {
+    max-height: 250px;
+    overflow: auto;
+    list-style: none;
+    padding: 0;
+}
+
+.assetsList::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.assetsList::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+   
+.assetsList::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+.assetsList p {
+    margin: 0;
+}
+
+.assetsList li {
+    border-bottom: 1px solid gray;
+    padding: 5px 0;
+}
+
+.brand {
+    font-weight: bold;
+}
+
+.devName {
+    text-transform: uppercase;
+    color: rgb(35, 57, 180)
+}
+
