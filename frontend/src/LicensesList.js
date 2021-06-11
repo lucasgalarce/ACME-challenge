@@ -9,7 +9,7 @@ const LicensesList = ({ licenses }) => {
 				{licenses &&
 					licenses.map((license) => (
 						<li key={license.id}>
-							<p className="software">software: {license.software}</p>
+							<p className="software">{license.software}</p>
 						</li>
 					))}
 			</ul>

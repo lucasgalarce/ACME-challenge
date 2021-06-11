@@ -1,8 +1,6 @@
 .assignmentsList {
     max-height: 250px;
     overflow: auto;
-    list-style: none;
-    padding: 0;
 }
 
 .assignmentsList::-webkit-scrollbar {
@@ -22,7 +20,6 @@
 }
 
 .assignmentsList li {
-    border-bottom: 1px solid gray;
     padding: 5px 0;
 }
 
