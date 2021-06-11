@@ -332,16 +332,31 @@ router.put('/changeStatus',  validateToken, async (req, res) => {
 
 		const fetchedDeveloper = await Developers.findOne({ id });
 
-		const newVal = {
+		if (!fetchedDeveloper) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer doesn't exist`,
+			});
+		}
+
+		let newVal = {
 			$set : {
 				active: status
 			}
 		}
 
-		const savedNewStatus = await Developers.updateOne({ id }, newVal);
+		let savedNewStatus = await Developers.updateOne({ id }, newVal);
 
-		/* Clean their assignments */
-		/* Pendient */
+		/* Clean thei assets and licenses if disabled developer */
+		if(status === 'false') {
+
+			newVal = {
+				assetsId: [],
+				licensesId: [],
+			}
+	
+			savedNewStatus = await Developers.updateOne({ id }, newVal);
+		}
 
 		return res.status(200).json({
 			Response: true,
