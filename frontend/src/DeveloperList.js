@@ -41,7 +41,10 @@ const DeveloperList = () => {
 					<LicensesList licenses={developer.licenses} />
 
 					{/* lista de licenses */}
-					<div className="d-flex justify-content-center">
+					<div
+						className="d-flex justify-content-center"
+						style={{ clear: "both" }}
+					>
 						<Button variant="primary" className="mr-4">
 							Add asset
 						</Button>
