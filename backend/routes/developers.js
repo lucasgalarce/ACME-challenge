@@ -13,6 +13,7 @@ import Developers from '../models/developers.js';
 import MyFunctions from '../includes/functions.js';
 import Config from '../includes/config.js';
 import Assets from '../models/assets.js';
+import Licenses from '../models/licenses.js';
 
 /* Function to Validate Session Token */
 const validateToken = (req, res, next) => {
@@ -51,7 +52,7 @@ router.get('/fetchAllDevelopers', validateToken, async (req, res) => {
 			Message: `${err}`
         });
     }
-}),
+});
 
 router.post('/createDeveloper', validateToken, async (req, res) => {
 
@@ -82,7 +83,7 @@ router.post('/createDeveloper', validateToken, async (req, res) => {
 			Message: `${err}`
         });
     }
-}),
+});
 
 router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 
@@ -92,7 +93,7 @@ router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 
 		if (!developerId || !assetId) {
 			return res.status(200).json({
-				Response: true,
+				Response: false,
 				Message: 'Developer Id and Asset Id are required.'
 			});
 		}
@@ -114,6 +115,15 @@ router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 			});
 		}
 
+		const hasThisAsset = fetchedDeveloper.assetsId.some( asset => asset === assetId)
+
+		if(hasThisAsset) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer already have this asset`,
+			});
+		}
+
 		const newVal = {
 			$push : {
 				assetsId: assetId
@@ -121,9 +131,6 @@ router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 		}
 
 		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
-		console.log(savedNewStatus)
-		/* Clean their assignments */
-		/* Pendient */
 
 		return res.status(200).json({
 			Response: true,
@@ -134,7 +141,181 @@ router.post('/addAssetToDeveloper',  validateToken, async (req, res) => {
 		console.log(e);
 	}
 
-})
+});
+
+router.delete('/deleteAssetToDeveloper',  validateToken, async (req, res) => {
+
+	try {
+
+		const { developerId, assetId } = req.body;
+
+		if (!developerId || !assetId) {
+			return res.status(200).json({
+				Response: false,
+				Message: 'Developer Id and Asset Id are required.'
+			});
+		}
+
+		const fetchedAsset = await Assets.findOne({ id: assetId });
+		const fetchedDeveloper = await Developers.findOne({ id: developerId });
+
+		if (!fetchedAsset) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Asset doesn't exist`,
+			});
+		}
+
+		if (!fetchedDeveloper) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer doesn't exist`,
+			});
+		}
+
+		const hasThisAsset = fetchedDeveloper.assetsId.some( asset => asset === assetId)
+
+		if(!hasThisAsset) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer hasn't this asset`,
+			});
+		}
+
+		const newVal = {
+			$pull : {
+				assetsId: assetId
+			}
+		}
+
+		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+
+		return res.status(200).json({
+			Response: true,
+			Message: `Deleted asset succesfull`,
+		});
+
+	} catch(e){
+		console.log(e);
+	}
+
+});
+
+router.post('/addLicenseToDeveloper',  validateToken, async (req, res) => {
+
+	try {
+
+		const { developerId, licenseId } = req.body;
+
+		if (!developerId || !licenseId) {
+			return res.status(200).json({
+				Response: false,
+				Message: 'Developer Id and License Id are required.'
+			});
+		}
+
+		const fetchedLicense = await Licenses.findOne({ id: licenseId });
+		const fetchedDeveloper = await Developers.findOne({ id: developerId });
+
+		if (!fetchedLicense) {
+			return res.status(200).json({
+				Response: false,
+				Message: `License doesn't exist`,
+			});
+		}
+
+		if (!fetchedDeveloper) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer doesn't exist`,
+			});
+		}
+
+		const hasThisLicense = fetchedDeveloper.licensesId.some( license => license === licenseId)
+
+		if(hasThisLicense) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer already have this license`,
+			});
+		}
+
+		const newVal = {
+			$push : {
+				licensesId: licenseId
+			}
+		}
+
+		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+
+		return res.status(200).json({
+			Response: true,
+			Message: `Added license succesfull`,
+		});
+
+	} catch(e){
+		console.log(e);
+	}
+
+});
+
+router.delete('/deleteLicenseToDeveloper',  validateToken, async (req, res) => {
+
+	try {
+
+		const { developerId, licenseId } = req.body;
+
+		if (!developerId || !licenseId) {
+			return res.status(200).json({
+				Response: false,
+				Message: 'Developer Id and License Id are required.'
+			});
+		}
+
+		const fetchedLicense = await Licenses.findOne({ id: licenseId });
+		const fetchedDeveloper = await Developers.findOne({ id: developerId });
+
+		if (!fetchedLicense) {
+			return res.status(200).json({
+				Response: false,
+				Message: `License doesn't exist`,
+			});
+		}
+
+		if (!fetchedDeveloper) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer doesn't exist`,
+			});
+		}
+
+		const hasThisLicense = fetchedDeveloper.licensesId.some( license => license === licenseId)
+
+		if(!hasThisLicense) {
+			return res.status(200).json({
+				Response: false,
+				Message: `Developer hasn't this license`,
+			});
+		}
+
+		const newVal = {
+			$pull : {
+				licensesId: licenseId
+			}
+		}
+
+		const savedNewStatus = await Developers.updateOne({ id: developerId }, newVal);
+
+		return res.status(200).json({
+			Response: true,
+			Message: `Deleted license succesfull`,
+		});
+
+	} catch(e){
+		console.log(e);
+	}
+
+});
 
 router.put('/changeStatus',  validateToken, async (req, res) => {
 
@@ -171,7 +352,7 @@ router.put('/changeStatus',  validateToken, async (req, res) => {
 		console.log(e);
 	}
 
-})
+});
 
 /* Export this Module */
 export default router;

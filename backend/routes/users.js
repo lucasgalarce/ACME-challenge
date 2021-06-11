@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
             Message  : `${err}`
         });
     }
-}),
+});
 
 router.post('/register', async (req, res) => {
 
