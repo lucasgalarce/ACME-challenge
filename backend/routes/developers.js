@@ -8,12 +8,12 @@ const router = express.Router();
 
 /* Include Models & Schemas */
 import Developers from "../models/developers.js";
+import Assets from "../models/assets.js";
+import Licenses from "../models/licenses.js";
 
 /* Load Functions, Locales and Config Files */
 import MyFunctions from "../includes/functions.js";
 import Config from "../includes/config.js";
-import Assets from "../models/assets.js";
-import Licenses from "../models/licenses.js";
 
 /* Function to Validate Session Token */
 const validateToken = (req, res, next) => {
