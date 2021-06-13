@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
 import "./App.css";
 
 import AssetsList from "./AssetsList.js";
 import LicensesList from "./LicensesList.js";
+import ModalForm from "./ModalForm";
 
 const DeveloperList = () => {
 	const [developers, setDevelopers] = useState({});
@@ -39,18 +39,9 @@ const DeveloperList = () => {
 
 					<AssetsList assets={developer.assets} />
 					<LicensesList licenses={developer.licenses} />
-
-					{/* lista de licenses */}
-					<div
-						className="d-flex justify-content-center"
-						style={{ clear: "both" }}
-					>
-						<Button variant="primary" className="mr-4">
-							Add asset
-						</Button>
-						<Button variant="success">Add license</Button>
-					</div>
 				</div>
+
+				<ModalForm developerId={developer.id} />
 			</div>
 		);
 	});

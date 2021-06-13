@@ -139,6 +139,7 @@ router.post("/addAssetToDeveloper", validateToken, async (req, res) => {
 			{ id: developerId },
 			newVal
 		);
+		console.log(savedNewStatus);
 
 		return res.status(200).json({
 			Response: true,

@@ -31,7 +31,7 @@ router.get("/fetchAllAssets", validateToken, async (req, res) => {
 	try {
 		/* Fetch Developers*/
 		const fetchedAssets = await Assets.find();
-		console.log(fetchedAssets);
+
 		/* Send response OK */
 		res.status(200).json({
 			Response: true,
