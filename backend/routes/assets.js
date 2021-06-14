@@ -1,33 +1,29 @@
-"use strict";
+'use strict';
 
 /* Define and load Modules */
-import express from "express";
-import jwt from "jsonwebtoken";
+import express from 'express';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
 /* Include Models & Schemas */
-import Developers from "../models/developers.js";
-import Assets from "../models/assets.js";
-
-/* Load Functions, Locales and Config Files */
-import Config from "../includes/config.js";
+import Assets from '../models/assets.js';
 
 /* Function to Validate Session Token */
 const validateToken = (req, res, next) => {
-	const sessToken = req.header("sessToken");
+	const sessToken = req.header('sessToken');
 
-	if (!sessToken) return res.status(401).send("Access Denied");
+	if (!sessToken) return res.status(401).send('Access Denied');
 
 	try {
-		const verified = jwt.verify(sessToken, Config.secretToken);
+		const verified = jwt.verify(sessToken, process.env.SECRET_TOKEN);
 		next();
 	} catch (error) {
 		res.status(400).send(error);
 	}
 };
 
-router.get("/fetchAllAssets", validateToken, async (req, res) => {
+router.get('/fetchAllAssets', validateToken, async (req, res) => {
 	try {
 		/* Fetch Developers*/
 		const fetchedAssets = await Assets.find();

@@ -1,35 +1,34 @@
-"use strict";
+'use strict';
 
 /* Define and load Modules */
-import express from "express";
-import jwt from "jsonwebtoken";
+import express from 'express';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
 /* Include Models & Schemas */
-import Developers from "../models/developers.js";
-import Assets from "../models/assets.js";
-import Licenses from "../models/licenses.js";
+import Developers from '../models/developers.js';
+import Assets from '../models/assets.js';
+import Licenses from '../models/licenses.js';
 
 /* Load Functions, Locales and Config Files */
-import MyFunctions from "../includes/functions.js";
-import Config from "../includes/config.js";
+import MyFunctions from '../includes/functions.js';
 
 /* Function to Validate Session Token */
 const validateToken = (req, res, next) => {
-	const sessToken = req.header("sessToken");
+	const sessToken = req.header('sessToken');
 
-	if (!sessToken) return res.status(401).send("Access Denied");
+	if (!sessToken) return res.status(401).send('Access Denied');
 
 	try {
-		const verified = jwt.verify(sessToken, Config.secretToken);
+		const verified = jwt.verify(sessToken, process.env.SECRET_TOKEN);
 		next();
 	} catch (error) {
 		res.status(400).send(error);
 	}
 };
 
-router.get("/fetchAllDevelopers", validateToken, async (req, res) => {
+router.get('/fetchAllDevelopers', validateToken, async (req, res) => {
 	try {
 		/* Fetch Developers*/
 		const fetchedDevelopers = await Developers.find();
@@ -62,7 +61,7 @@ router.get("/fetchAllDevelopers", validateToken, async (req, res) => {
 	}
 });
 
-router.post("/createDeveloper", validateToken, async (req, res) => {
+router.post('/createDeveloper', validateToken, async (req, res) => {
 	try {
 		const payload = req.body;
 
@@ -79,7 +78,7 @@ router.post("/createDeveloper", validateToken, async (req, res) => {
 		/* Return TRUE */
 		res.status(200).json({
 			Response: true,
-			Message: "Developer created.",
+			Message: 'Developer created.',
 			newDeveloper,
 		});
 	} catch (err) {
@@ -91,14 +90,14 @@ router.post("/createDeveloper", validateToken, async (req, res) => {
 	}
 });
 
-router.post("/addAssetToDeveloper", validateToken, async (req, res) => {
+router.post('/addAssetToDeveloper', validateToken, async (req, res) => {
 	try {
 		const { developerId, assetId } = req.body;
 
 		if (!developerId || !assetId) {
 			return res.status(200).json({
 				Response: false,
-				Message: "Developer Id and Asset Id are required.",
+				Message: 'Developer Id and Asset Id are required.',
 			});
 		}
 
@@ -150,14 +149,14 @@ router.post("/addAssetToDeveloper", validateToken, async (req, res) => {
 	}
 });
 
-router.delete("/deleteAssetToDeveloper", validateToken, async (req, res) => {
+router.delete('/deleteAssetToDeveloper', validateToken, async (req, res) => {
 	try {
 		const { developerId, assetId } = req.body;
 
 		if (!developerId || !assetId) {
 			return res.status(200).json({
 				Response: false,
-				Message: "Developer Id and Asset Id are required.",
+				Message: 'Developer Id and Asset Id are required.',
 			});
 		}
 
@@ -209,14 +208,14 @@ router.delete("/deleteAssetToDeveloper", validateToken, async (req, res) => {
 	}
 });
 
-router.post("/addLicenseToDeveloper", validateToken, async (req, res) => {
+router.post('/addLicenseToDeveloper', validateToken, async (req, res) => {
 	try {
 		const { developerId, licenseId } = req.body;
 
 		if (!developerId || !licenseId) {
 			return res.status(200).json({
 				Response: false,
-				Message: "Developer Id and License Id are required.",
+				Message: 'Developer Id and License Id are required.',
 			});
 		}
 
@@ -268,14 +267,14 @@ router.post("/addLicenseToDeveloper", validateToken, async (req, res) => {
 	}
 });
 
-router.delete("/deleteLicenseToDeveloper", validateToken, async (req, res) => {
+router.delete('/deleteLicenseToDeveloper', validateToken, async (req, res) => {
 	try {
 		const { developerId, licenseId } = req.body;
 
 		if (!developerId || !licenseId) {
 			return res.status(200).json({
 				Response: false,
-				Message: "Developer Id and License Id are required.",
+				Message: 'Developer Id and License Id are required.',
 			});
 		}
 
@@ -327,14 +326,14 @@ router.delete("/deleteLicenseToDeveloper", validateToken, async (req, res) => {
 	}
 });
 
-router.put("/changeStatus", validateToken, async (req, res) => {
+router.put('/changeStatus', validateToken, async (req, res) => {
 	try {
 		const { id, status } = req.body;
 
 		if (!id || status === undefined) {
 			return res.status(200).json({
 				Response: false,
-				Message: "Id and status are required.",
+				Message: 'Id and status are required.',
 			});
 		}
 

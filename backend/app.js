@@ -1,22 +1,23 @@
-"use strict";
+'use strict';
 
 /* Include Node.js Modules */
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 // import config from './config/config.js';
 
 /* Include Routes */
-import developers from "./routes/developers.js";
-import users from "./routes/users.js";
-import assets from "./routes/assets.js";
-import licenses from "./routes/licenses.js";
+import developers from './routes/developers.js';
+import users from './routes/users.js';
+import assets from './routes/assets.js';
+import licenses from './routes/licenses.js';
 
-import CreateFirstUser from "./includes/createFirstUser.js";
-import CreateAssetsAndLicenses from "./includes/createAssetsAndLicenses.js";
+import CreateFirstUser from './includes/createFirstUser.js';
+import CreateAssetsAndLicenses from './includes/createAssetsAndLicenses.js';
 
-const PORT = process.env.PORT;
+dotenv.config();
 
 /* Init Express Framework */
 const app = express();
@@ -28,24 +29,26 @@ app.use(express.urlencoded({ extended: false }));
 /* Enable CORS */
 app.use(cors());
 
+const PORT = process.env.PORT;
+
 /* Set the PORT and Start Web Server */
-app.set("port", PORT || 3000);
-const server = app.listen(app.get("port"), function () {
-	console.log("Server: " + app.get("port"));
+app.set('port', PORT || 3000);
+const server = app.listen(PORT, () => {
+	console.log('Server: ' + PORT);
 });
 
 /* Define Routes */
-app.use("/developers", developers);
-app.use("/users", users);
-app.use("/assets", assets);
-app.use("/licenses", licenses);
+app.use('/developers', developers);
+app.use('/users', users);
+app.use('/assets', assets);
+app.use('/licenses', licenses);
 
 // MongoDB Connection
-mongoose.set("useCreateIndex", true);
+mongoose.set('useCreateIndex', true);
 
 try {
 	mongoose.connect(
-		"mongodb://localhost:27017/acme-challenge",
+		'mongodb://localhost:27017/acme-challenge',
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
@@ -53,7 +56,7 @@ try {
 		(err, res) => {
 			if (err) throw err;
 
-			console.log("DB online");
+			console.log('DB online');
 		}
 	);
 } catch (err) {

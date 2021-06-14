@@ -1,20 +1,19 @@
-"use strict";
+'use strict';
 
 /* Define and load Modules */
-import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
 /* Include Models & Schemas */
-import Users from "../models/users.js";
+import Users from '../models/users.js';
 
 /* Load Functions, Locales and Config Files */
-import MyFunctions from "../includes/functions.js";
-import Config from "../includes/config.js";
+import MyFunctions from '../includes/functions.js';
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
 	try {
 		/* Get the object from request */
 		const payload = req.body;
@@ -47,7 +46,7 @@ router.post("/login", async (req, res) => {
 						/* Token Data */
 						id: user.id,
 					},
-					Config.secretToken
+					process.env.SECRET_TOKEN
 				);
 
 				res.status(200).json({
@@ -66,7 +65,7 @@ router.post("/login", async (req, res) => {
 	}
 });
 
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
 	try {
 		/* Get the object from request */
 		const payload = req.body;
