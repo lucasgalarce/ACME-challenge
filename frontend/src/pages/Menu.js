@@ -1,8 +1,7 @@
 import React from "react";
-import DeveloperCreate from "./DeveloperCreate";
-import DeveloperList from "./DeveloperList";
-
-const App = () => {
+import DeveloperList from "../DeveloperList";
+import DeveloperCreate from "../DeveloperCreate";
+const Menu = () => {
 	return (
 		<div className="container">
 			<h1>Create Developer</h1>
@@ -13,4 +12,5 @@ const App = () => {
 		</div>
 	);
 };
-export default App;
+
+export default Menu;
