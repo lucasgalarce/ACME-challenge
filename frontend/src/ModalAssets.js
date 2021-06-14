@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal, Alert } from "react-bootstrap";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Alert } from 'react-bootstrap';
+import axios from 'axios';
 
-const ModalAssets = ({ developerId, isActive }) => {
+const ModalAssets = ({ developerId, isActive, fetchDevelopers }) => {
 	const [show, setShow] = useState(false);
 	const [assets, setAssets] = useState({});
-	const [currentAssetId, setCurrenAssetId] = useState("");
+	const [currentAssetId, setCurrenAssetId] = useState('');
 	const [errorMessage, setErrorMessage] = useState(null);
 
 	const handleClose = () => {
@@ -21,7 +21,7 @@ const ModalAssets = ({ developerId, isActive }) => {
 	const axiosConfig = {
 		headers: {
 			sessToken:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE",
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
 		},
 	};
 
@@ -32,7 +32,7 @@ const ModalAssets = ({ developerId, isActive }) => {
 		};
 
 		const res = await axios.post(
-			"http://localhost:3000/developers/addAssetToDeveloper",
+			'http://localhost:3000/developers/addAssetToDeveloper',
 			data,
 			axiosConfig
 		);
@@ -40,6 +40,7 @@ const ModalAssets = ({ developerId, isActive }) => {
 		if (res.data.Response) {
 			handleClose();
 			setCurrenAssetId(assets[0].id);
+			fetchDevelopers();
 		} else {
 			setErrorMessage(res.data.Message);
 		}
@@ -47,7 +48,7 @@ const ModalAssets = ({ developerId, isActive }) => {
 
 	const fetchAllAssets = async () => {
 		const res = await axios.get(
-			"http://localhost:3000/assets/fetchAllAssets",
+			'http://localhost:3000/assets/fetchAllAssets',
 			axiosConfig
 		);
 
@@ -71,7 +72,7 @@ const ModalAssets = ({ developerId, isActive }) => {
 		<div>
 			<div
 				className="d-flex justify-content-center mb-2"
-				style={{ clear: "both" }}
+				style={{ clear: 'both' }}
 			>
 				<Button variant="primary" onClick={handleShow} disabled={!isActive}>
 					Add asset

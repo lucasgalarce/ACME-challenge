@@ -1,31 +1,36 @@
-import React, { useState } from "react";
-import axios from "axios";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import React, { useState } from 'react';
+import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import { Button, Alert } from 'react-bootstrap';
 
-const Login = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+const Login = ({ setUserToken }) => {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [errorMessage, setErrorMessage] = useState('');
 
-	const onSubmit = async (event) => {
+	const Login = async (event) => {
 		event.preventDefault();
 
 		const data = {
 			email,
 			password,
 		};
-		console.log(email, password);
 
-		const res = await axios.post("http://localhost:3000/users/login", data);
+		const res = await axios.post('http://localhost:3000/users/login', data);
 
-		console.log(res);
+		if (res.data.Response) {
+			localStorage.setItem('sessToken', JSON.stringify(res.data.sessionToken));
+			setUserToken(JSON.stringify(res.data.sessionToken));
+		} else {
+			setErrorMessage(res.data.Message);
+		}
 	};
 
 	return (
-		<div className="container ">
+		<div className="container mt-5">
 			<div className="row justify-content-center ">
 				<div className="col-6">
-					<Form onSubmit={onSubmit}>
+					<Form onSubmit={Login}>
 						<Form.Group controlId="Email">
 							<Form.Label>Email address</Form.Label>
 							<Form.Control
@@ -47,6 +52,12 @@ const Login = () => {
 								onChange={(e) => setPassword(e.target.value)}
 							/>
 						</Form.Group>
+
+						{errorMessage && (
+							<Alert key={errorMessage} variant="danger">
+								{errorMessage}
+							</Alert>
+						)}
 
 						<Button variant="primary" type="submit">
 							Login

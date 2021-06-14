@@ -1,6 +1,6 @@
-import React from "react";
-import DeveloperList from "../DeveloperList";
-import DeveloperCreate from "../DeveloperCreate";
+import React from 'react';
+import DeveloperList from '../DeveloperList';
+import DeveloperCreate from '../DeveloperCreate';
 const Menu = () => {
 	return (
 		<div className="container">

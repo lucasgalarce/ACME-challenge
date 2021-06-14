@@ -1,17 +1,26 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "../pages/Login";
-import Menu from "../pages/Menu.js";
+import React, { useState, useEffect } from 'react';
+import { Router, Redirect } from '@reach/router';
+import Login from '../pages/Login';
+import Menu from '../pages/Menu.js';
 
-const Routes = () => {
+const App = () => {
+	const [userToken, setUserToken] = useState(null);
+
+	useEffect(() => {
+		const loggedUserJSON = localStorage.getItem('sessToken');
+		if (loggedUserJSON) {
+			const userToken = JSON.parse(loggedUserJSON);
+			setUserToken(userToken);
+		}
+	}, []);
 	return (
-		<BrowserRouter>
-			<Switch>
-				<Route exact path="/" component={Login} />
-				<Route exact path="/menu" component={Menu} />
-			</Switch>
-		</BrowserRouter>
+		<Router>
+			{userToken === null && <Redirect from="/menu" to="/" noThrow />}
+			{userToken !== null && <Redirect from="/" to="/menu" noThrow />}
+			<Login path="/" setUserToken={setUserToken} />
+			<Menu path="/menu" />
+		</Router>
 	);
 };
 
-export default Routes;
+export default App;

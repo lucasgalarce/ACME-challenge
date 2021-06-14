@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const PostCreate = () => {
-	const [fullname, setFullName] = useState("");
+	const [fullname, setFullName] = useState('');
 
 	const axiosConfig = {
 		headers: {
 			sessToken:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE",
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
 		},
 	};
 
@@ -19,12 +19,12 @@ const PostCreate = () => {
 		};
 
 		await axios.post(
-			"http://localhost:3000/developers/createDeveloper",
+			'http://localhost:3000/developers/createDeveloper',
 			data,
 			axiosConfig
 		);
 
-		setFullName("");
+		setFullName('');
 	};
 
 	return (

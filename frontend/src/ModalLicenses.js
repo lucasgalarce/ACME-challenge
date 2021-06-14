@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal, Alert } from "react-bootstrap";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Alert } from 'react-bootstrap';
+import axios from 'axios';
 
-const ModalLicenses = ({ developerId, isActive }) => {
+const ModalLicenses = ({ developerId, isActive, fetchDevelopers }) => {
 	const [show, setShow] = useState(false);
 	const [licenses, setLicenses] = useState({});
-	const [currentLicenseId, setCurrenLicenseId] = useState("");
+	const [currentLicenseId, setCurrenLicenseId] = useState('');
 	const [errorMessage, setErrorMessage] = useState(null);
 
 	const handleClose = () => {
@@ -21,7 +21,7 @@ const ModalLicenses = ({ developerId, isActive }) => {
 	const axiosConfig = {
 		headers: {
 			sessToken:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE",
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
 		},
 	};
 
@@ -32,7 +32,7 @@ const ModalLicenses = ({ developerId, isActive }) => {
 		};
 
 		const res = await axios.post(
-			"http://localhost:3000/developers/addLicenseToDeveloper",
+			'http://localhost:3000/developers/addLicenseToDeveloper',
 			data,
 			axiosConfig
 		);
@@ -40,6 +40,7 @@ const ModalLicenses = ({ developerId, isActive }) => {
 		if (res.data.Response) {
 			handleClose();
 			setCurrenLicenseId(licenses[0].id);
+			fetchDevelopers();
 		} else {
 			setErrorMessage(res.data.Message);
 		}
@@ -47,7 +48,7 @@ const ModalLicenses = ({ developerId, isActive }) => {
 
 	const fetchAllLicenses = async () => {
 		const res = await axios.get(
-			"http://localhost:3000/licenses/fetchAllLicenses",
+			'http://localhost:3000/licenses/fetchAllLicenses',
 			axiosConfig
 		);
 
@@ -71,7 +72,7 @@ const ModalLicenses = ({ developerId, isActive }) => {
 		<div>
 			<div
 				className="d-flex justify-content-center mb-2"
-				style={{ clear: "both" }}
+				style={{ clear: 'both' }}
 			>
 				<Button variant="primary" onClick={handleShow} disabled={!isActive}>
 					Add license
