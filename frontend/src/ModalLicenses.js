@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 
-const ModalForm = ({ developerId }) => {
+const ModalLicenses = ({ developerId, isActive }) => {
 	const [show, setShow] = useState(false);
-	const [assets, setAssets] = useState({});
-	const [currentAssetId, setCurrenAssetId] = useState("");
+	const [licenses, setLicenses] = useState({});
+	const [currentLicenseId, setCurrenLicenseId] = useState("");
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
 	const handleAssetIdToadd = (e) => {
-		setCurrenAssetId(e.target.value);
+		setCurrenLicenseId(e.target.value);
 	};
 
 	const axiosConfig = {
@@ -21,14 +21,14 @@ const ModalForm = ({ developerId }) => {
 		},
 	};
 
-	const addAssetToDeveloper = async () => {
+	const addLicenseToDeveloper = async () => {
 		const data = {
 			developerId,
-			assetId: currentAssetId,
+			licenseId: currentLicenseId,
 		};
 
-		const res = await axios.post(
-			"http://localhost:3000/developers/addAssetToDeveloper",
+		await axios.post(
+			"http://localhost:3000/developers/addLicenseToDeveloper",
 			data,
 			axiosConfig
 		);
@@ -36,26 +36,26 @@ const ModalForm = ({ developerId }) => {
 		handleClose();
 	};
 
-	const fetchAllAssets = async () => {
+	const fetchAllLicenses = async () => {
 		const res = await axios.get(
-			"http://localhost:3000/assets/fetchAllAssets",
+			"http://localhost:3000/licenses/fetchAllLicenses",
 			axiosConfig
 		);
 
-		setAssets(res.data.fetchedAssets);
-		setCurrenAssetId(res.data.fetchedAssets[0].id);
+		setLicenses(res.data.fetchedLicenses);
+		setCurrenLicenseId(res.data.fetchedLicenses[0].id);
 	};
 
-	const renderedAssets = Object.values(assets).map((asset) => {
+	const renderedLicenses = Object.values(licenses).map((license) => {
 		return (
-			<option value={asset.id} key={asset.id}>
-				{asset.brand} - {asset.model}
+			<option value={license.id} key={license.id}>
+				{license.software}
 			</option>
 		);
 	});
 
 	useEffect(() => {
-		fetchAllAssets();
+		fetchAllLicenses();
 	}, []);
 
 	return (
@@ -64,29 +64,28 @@ const ModalForm = ({ developerId }) => {
 				className="d-flex justify-content-center mb-2"
 				style={{ clear: "both" }}
 			>
-				<Button variant="primary" className="mr-4" onClick={handleShow}>
-					Add asset
+				<Button variant="primary" onClick={handleShow} disabled={!isActive}>
+					Add license
 				</Button>
-				<Button variant="success">Add license</Button>
 			</div>
 
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Add asset</Modal.Title>
+					<Modal.Title>Add Lisences</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<select
 						className="browser-default custom-select"
 						onChange={handleAssetIdToadd}
 					>
-						{renderedAssets}
+						{renderedLicenses}
 					</select>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
 						Close
 					</Button>
-					<Button variant="primary" onClick={addAssetToDeveloper}>
+					<Button variant="primary" onClick={addLicenseToDeveloper}>
 						Save Changes
 					</Button>
 				</Modal.Footer>
@@ -95,4 +94,4 @@ const ModalForm = ({ developerId }) => {
 	);
 };
 
-export default ModalForm;
+export default ModalLicenses;

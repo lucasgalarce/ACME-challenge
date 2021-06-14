@@ -42,6 +42,7 @@ router.get("/fetchAllDevelopers", validateToken, async (req, res) => {
 			developersWithAssignments.push({
 				id: developer.id,
 				fullname: developer.fullname,
+				active: developer.active,
 				assets: fetchedAssets,
 				licenses: fetchedLicenses,
 			});
@@ -139,7 +140,6 @@ router.post("/addAssetToDeveloper", validateToken, async (req, res) => {
 			{ id: developerId },
 			newVal
 		);
-		console.log(savedNewStatus);
 
 		return res.status(200).json({
 			Response: true,
@@ -331,7 +331,7 @@ router.put("/changeStatus", validateToken, async (req, res) => {
 	try {
 		const { id, status } = req.body;
 
-		if (!id || !status) {
+		if (!id || status === undefined) {
 			return res.status(200).json({
 				Response: false,
 				Message: "Id and status are required.",
@@ -356,7 +356,7 @@ router.put("/changeStatus", validateToken, async (req, res) => {
 		let savedNewStatus = await Developers.updateOne({ id }, newVal);
 
 		/* Clean thei assets and licenses if disabled developer */
-		if (status === "false") {
+		if (status === false) {
 			newVal = {
 				assetsId: [],
 				licensesId: [],

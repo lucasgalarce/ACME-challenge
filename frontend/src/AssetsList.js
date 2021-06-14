@@ -4,7 +4,7 @@ import "./App.css";
 const AssetsList = ({ assets }) => {
 	return (
 		<div style={{ width: "48%", float: "left" }}>
-			<h3>Assets</h3>
+			<h3 className="text-center">Assets</h3>
 			<ul className="assignmentsList">
 				{assets &&
 					assets.map((asset) => (

@@ -1,6 +1,8 @@
 .assignmentsList {
     max-height: 250px;
     overflow: auto;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .assignmentsList::-webkit-scrollbar {
