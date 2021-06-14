@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Alert } from "react-bootstrap";
 import axios from "axios";
 
 const ModalLicenses = ({ developerId, isActive }) => {
 	const [show, setShow] = useState(false);
 	const [licenses, setLicenses] = useState({});
 	const [currentLicenseId, setCurrenLicenseId] = useState("");
+	const [errorMessage, setErrorMessage] = useState(null);
 
-	const handleClose = () => setShow(false);
+	const handleClose = () => {
+		setShow(false);
+		setErrorMessage(null);
+	};
 	const handleShow = () => setShow(true);
 
 	const handleAssetIdToadd = (e) => {
@@ -27,14 +31,18 @@ const ModalLicenses = ({ developerId, isActive }) => {
 			licenseId: currentLicenseId,
 		};
 
-		await axios.post(
+		const res = await axios.post(
 			"http://localhost:3000/developers/addLicenseToDeveloper",
 			data,
 			axiosConfig
 		);
 
-		handleClose();
-		setCurrenLicenseId(licenses[0].id);
+		if (res.data.Response) {
+			handleClose();
+			setCurrenLicenseId(licenses[0].id);
+		} else {
+			setErrorMessage(res.data.Message);
+		}
 	};
 
 	const fetchAllLicenses = async () => {
@@ -82,6 +90,13 @@ const ModalLicenses = ({ developerId, isActive }) => {
 						{renderedLicenses}
 					</select>
 				</Modal.Body>
+
+				{errorMessage && (
+					<Alert key={errorMessage} variant="danger">
+						{errorMessage}
+					</Alert>
+				)}
+
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
 						Close
