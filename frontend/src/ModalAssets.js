@@ -34,6 +34,7 @@ const ModalAssets = ({ developerId, isActive }) => {
 		);
 
 		handleClose();
+		setCurrenAssetId(assets[0].id);
 	};
 
 	const fetchAllAssets = async () => {

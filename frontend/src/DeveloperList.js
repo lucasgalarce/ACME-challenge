@@ -33,8 +33,6 @@ const DeveloperList = () => {
 	};
 
 	const changeDeveloperStatus = async (developerId, status) => {
-		console.log(developerId);
-		console.log(status);
 		const data = {
 			id: developerId,
 			status,
@@ -73,8 +71,11 @@ const DeveloperList = () => {
 							</Button>
 						</h3>
 					</div>
-					<AssetsList assets={developer.assets} />
-					<LicensesList licenses={developer.licenses} />
+					<AssetsList assets={developer.assets} developerId={developer.id} />
+					<LicensesList
+						licenses={developer.licenses}
+						developerId={developer.id}
+					/>
 				</div>
 
 				<ModalAssets developerId={developer.id} isActive={developer.active} />

@@ -34,6 +34,7 @@ const ModalLicenses = ({ developerId, isActive }) => {
 		);
 
 		handleClose();
+		setCurrenLicenseId(licenses[0].id);
 	};
 
 	const fetchAllLicenses = async () => {
