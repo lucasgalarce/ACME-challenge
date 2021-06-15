@@ -3,14 +3,13 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import './App.css';
 
-const AssetsList = ({ developerId, assets, fetchDevelopers }) => {
+const AssetsList = ({ developerId, assets, fetchDevelopers, userToken }) => {
 	const removeAssetToDeveloper = async (assetId) => {
 		await axios.delete(
 			'http://localhost:3000/developers/deleteAssetToDeveloper',
 			{
 				headers: {
-					sessToken:
-						'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
+					sessToken: userToken,
 				},
 				data: {
 					developerId,

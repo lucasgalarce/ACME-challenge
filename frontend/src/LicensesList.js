@@ -3,14 +3,18 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import './App.css';
 
-const LicensesList = ({ developerId, licenses, fetchDevelopers }) => {
+const LicensesList = ({
+	developerId,
+	licenses,
+	fetchDevelopers,
+	userToken,
+}) => {
 	const removeLicenseToDeveloper = async (licenseId) => {
 		await axios.delete(
 			'http://localhost:3000/developers/deleteLicenseToDeveloper',
 			{
 				headers: {
-					sessToken:
-						'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
+					sessToken: userToken,
 				},
 				data: {
 					developerId,

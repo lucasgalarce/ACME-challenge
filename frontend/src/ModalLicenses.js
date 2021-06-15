@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
-const ModalLicenses = ({ developerId, isActive, fetchDevelopers }) => {
+const ModalLicenses = ({
+	developerId,
+	isActive,
+	fetchDevelopers,
+	userToken,
+}) => {
 	const [show, setShow] = useState(false);
 	const [licenses, setLicenses] = useState({});
 	const [currentLicenseId, setCurrenLicenseId] = useState('');
@@ -20,8 +25,7 @@ const ModalLicenses = ({ developerId, isActive, fetchDevelopers }) => {
 
 	const axiosConfig = {
 		headers: {
-			sessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
+			sessToken: userToken,
 		},
 	};
 

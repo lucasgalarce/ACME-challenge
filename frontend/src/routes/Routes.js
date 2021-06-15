@@ -18,7 +18,7 @@ const App = () => {
 			{userToken === null && <Redirect from="/menu" to="/" noThrow />}
 			{userToken !== null && <Redirect from="/" to="/menu" noThrow />}
 			<Login path="/" setUserToken={setUserToken} />
-			<Menu path="/menu" />
+			<Menu path="/menu" userToken={userToken} />
 		</Router>
 	);
 };

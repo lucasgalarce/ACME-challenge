@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const PostCreate = () => {
+const PostCreate = ({ userToken, fetchDevelopers }) => {
 	const [fullname, setFullName] = useState('');
 
 	const axiosConfig = {
 		headers: {
-			sessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
+			sessToken: userToken,
 		},
 	};
 
@@ -25,6 +24,7 @@ const PostCreate = () => {
 		);
 
 		setFullName('');
+		fetchDevelopers();
 	};
 
 	return (

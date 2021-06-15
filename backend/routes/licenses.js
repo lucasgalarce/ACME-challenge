@@ -27,7 +27,7 @@ router.get('/fetchAllLicenses', validateToken, async (req, res) => {
 	try {
 		/* Fetch Developers*/
 		const fetchedLicenses = await Licenses.find();
-		console.log(fetchedLicenses);
+
 		/* Send response OK */
 		res.status(200).json({
 			Response: true,

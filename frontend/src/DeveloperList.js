@@ -8,27 +8,10 @@ import LicensesList from './LicensesList.js';
 import ModalAssets from './ModalAssets';
 import ModalLicenses from './ModalLicenses';
 
-const DeveloperList = () => {
-	const [developers, setDevelopers] = useState({});
-
-	const fetchDevelopers = async () => {
-		const res = await axios.get(
-			'http://localhost:3000/developers/fetchAllDevelopers',
-			{
-				headers: {
-					sessToken:
-						'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
-				},
-			}
-		);
-
-		setDevelopers(res.data.fetchedDevelopers);
-	};
-
+const DeveloperList = ({ userToken, developers, fetchDevelopers }) => {
 	const axiosConfig = {
 		headers: {
-			sessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiZDgwM2I4LTg4YmUtNDAwNy04YTJhLTBiZWI3NjAxZjczYSIsImlhdCI6MTYyMzI4MzgyN30.h5YgyqlswdPRNKApbosNj6iHEfTMsPEYWChqKYDSoCE',
+			sessToken: userToken,
 		},
 	};
 
@@ -75,11 +58,13 @@ const DeveloperList = () => {
 						assets={developer.assets}
 						developerId={developer.id}
 						fetchDevelopers={() => fetchDevelopers()}
+						userToken={userToken}
 					/>
 					<LicensesList
 						licenses={developer.licenses}
 						developerId={developer.id}
 						fetchDevelopers={() => fetchDevelopers()}
+						userToken={userToken}
 					/>
 				</div>
 
@@ -87,11 +72,13 @@ const DeveloperList = () => {
 					developerId={developer.id}
 					isActive={developer.active}
 					fetchDevelopers={() => fetchDevelopers()}
+					userToken={userToken}
 				/>
 				<ModalLicenses
 					developerId={developer.id}
 					isActive={developer.active}
 					fetchDevelopers={() => fetchDevelopers()}
+					userToken={userToken}
 				/>
 			</div>
 		);
