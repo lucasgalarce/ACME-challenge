@@ -122,7 +122,3 @@ You should send to us a public or private repository which should include the fo
 - Public URL(deployed solution)
 - Docker and Docker Compose
 - Any database implemented(MongoDB, Postgres, MySQL)
-
-```
-
-```
