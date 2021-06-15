@@ -48,7 +48,7 @@ mongoose.set('useCreateIndex', true);
 
 try {
 	mongoose.connect(
-		'mongodb://localhost:27017/acme-challenge',
+		`mongodb+srv://${process.env.DB_USER || 'admin'}:${process.env.DB_PASS || 'admin'}@cluster0.opnyh.mongodb.net/acme?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`,
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
