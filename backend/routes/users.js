@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
 
 		/* Check if "Email" and "Password" are valid */
 		const user = await Users.findOne({ email: payload.email });
-		console.log(user);
+
 		if (!user) {
 			/* Invalid Credentials */
 			res.status(200).json({

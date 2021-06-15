@@ -38,7 +38,7 @@ In frontend root need .env file with REACT_APP_API_URL={your api url}
 ## Usage
 
 Admin was created, you can login with:
-user: admin@admin.com
+user: admin@test.com
 password: admin
 
 Then you can create developers, this developers are enabled. You can add assest or licenses. You can remove this assets or licenses. And enable or disable developer
