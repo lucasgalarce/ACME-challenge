@@ -10,7 +10,7 @@ This is an example of how you may give instructions on setting up your project l
 
 [node](https://nodejs.org/es/)
 
-## Installation
+## Installation 🔧
 
 Clone the repo
 
@@ -34,6 +34,14 @@ npm start
 ```
 
 In frontend root need .env file with REACT_APP_API_URL={your api url}
+
+
+## Deploy 📦
+This page is being deployed in [heroku](https://csb-i30uy.netlify.app/menu)
+
+## Builded with 🛠️
+* React.js - A JavaScript library for building user interfaces
+* Node.js - A JavaScript runtime built on Chrome's V8 JavaScript engine.
 
 ## Usage
 
