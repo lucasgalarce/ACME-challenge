@@ -8,6 +8,8 @@ const Login = ({ setUserToken }) => {
 	const [password, setPassword] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
 
+	const { REACT_APP_API_URL } = process.env;
+
 	const Login = async (event) => {
 		event.preventDefault();
 
@@ -16,7 +18,7 @@ const Login = ({ setUserToken }) => {
 			password,
 		};
 
-		const res = await axios.post('http://localhost:3000/users/login', data);
+		const res = await axios.post(`${REACT_APP_API_URL}/users/login`, data);
 
 		if (res.data.Response) {
 			localStorage.setItem('sessToken', JSON.stringify(res.data.sessionToken));
