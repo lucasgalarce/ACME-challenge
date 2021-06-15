@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
 						/* Token Data */
 						id: user.id,
 					},
-					process.env.SECRET_TOKEN
+					process.env.SECRET_TOKEN || '12345'
 				);
 
 				res.status(200).json({

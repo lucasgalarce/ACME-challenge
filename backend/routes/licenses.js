@@ -16,7 +16,7 @@ const validateToken = (req, res, next) => {
 	if (!sessToken) return res.status(401).send('Access Denied');
 
 	try {
-		const verified = jwt.verify(sessToken, process.env.SECRET_TOKEN);
+		const verified = jwt.verify(sessToken, process.env.SECRET_TOKEN || '12345');
 		next();
 	} catch (error) {
 		res.status(400).send(error);

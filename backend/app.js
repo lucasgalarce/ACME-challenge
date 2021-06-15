@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 /* Enable CORS */
 app.use(cors());
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 /* Set the PORT and Start Web Server */
 app.set('port', PORT || 3000);

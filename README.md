@@ -33,6 +33,8 @@ npm install
 npm start
 ```
 
+In frontend root need .env file with REACT_APP_API_URL={your api url}
+
 ## Usage
 
 Admin was created, you can login with:
