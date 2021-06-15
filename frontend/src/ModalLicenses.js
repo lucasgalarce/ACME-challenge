@@ -54,7 +54,7 @@ const ModalLicenses = ({
 
 	const fetchAllLicenses = async () => {
 		const res = await axios.get(
-			'http://localhost:3000/licenses/fetchAllLicenses',
+			`${REACT_APP_API_URL}/licenses/fetchAllLicenses`,
 			axiosConfig
 		);
 

@@ -18,7 +18,7 @@ const CreateFirstUser = async () => {
 
         const userEmail = 'admin@test.com';
         const password = 'admin';
-        const url = 'http://localhost:3000/users/register';
+        const url = `${process.env.BASE_URI}:3000/users/register`;
 
         const response = await axios.post(url, {
             email: userEmail,

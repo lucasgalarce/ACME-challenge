@@ -49,7 +49,7 @@ const ModalAssets = ({ developerId, isActive, fetchDevelopers, userToken }) => {
 
 	const fetchAllAssets = async () => {
 		const res = await axios.get(
-			'http://localhost:3000/assets/fetchAllAssets',
+			`${REACT_APP_API_URL}/assets/fetchAllAssets`,
 			axiosConfig
 		);
 
