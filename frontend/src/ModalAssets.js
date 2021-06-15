@@ -24,6 +24,8 @@ const ModalAssets = ({ developerId, isActive, fetchDevelopers, userToken }) => {
 		},
 	};
 
+	const { REACT_APP_API_URL } = process.env;
+
 	const addAssetToDeveloper = async () => {
 		const data = {
 			developerId,
@@ -31,7 +33,7 @@ const ModalAssets = ({ developerId, isActive, fetchDevelopers, userToken }) => {
 		};
 
 		const res = await axios.post(
-			'http://localhost:3000/developers/addAssetToDeveloper',
+			`${REACT_APP_API_URL}/developers/addAssetToDeveloper`,
 			data,
 			axiosConfig
 		);

@@ -29,6 +29,8 @@ const ModalLicenses = ({
 		},
 	};
 
+	const { REACT_APP_API_URL } = process.env;
+
 	const addLicenseToDeveloper = async () => {
 		const data = {
 			developerId,
@@ -36,7 +38,7 @@ const ModalLicenses = ({
 		};
 
 		const res = await axios.post(
-			'http://localhost:3000/developers/addLicenseToDeveloper',
+			`${REACT_APP_API_URL}/developers/addLicenseToDeveloper`,
 			data,
 			axiosConfig
 		);

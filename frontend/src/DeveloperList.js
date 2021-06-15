@@ -9,6 +9,8 @@ import ModalAssets from './ModalAssets';
 import ModalLicenses from './ModalLicenses';
 
 const DeveloperList = ({ userToken, developers, fetchDevelopers }) => {
+	const { REACT_APP_API_URL } = process.env;
+
 	const axiosConfig = {
 		headers: {
 			sessToken: userToken,
@@ -22,7 +24,7 @@ const DeveloperList = ({ userToken, developers, fetchDevelopers }) => {
 		};
 
 		await axios.put(
-			'http://localhost:3000/developers/changeStatus',
+			`${REACT_APP_API_URL}/developers/changeStatus`,
 			data,
 			axiosConfig
 		);

@@ -9,9 +9,11 @@ const LicensesList = ({
 	fetchDevelopers,
 	userToken,
 }) => {
+	const { REACT_APP_API_URL } = process.env;
+
 	const removeLicenseToDeveloper = async (licenseId) => {
 		await axios.delete(
-			'http://localhost:3000/developers/deleteLicenseToDeveloper',
+			`${REACT_APP_API_URL}/developers/deleteLicenseToDeveloper`,
 			{
 				headers: {
 					sessToken: userToken,

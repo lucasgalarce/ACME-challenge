@@ -4,6 +4,7 @@ import axios from 'axios';
 const PostCreate = ({ userToken, fetchDevelopers }) => {
 	const [fullname, setFullName] = useState('');
 
+	const { REACT_APP_API_URL } = process.env;
 	const axiosConfig = {
 		headers: {
 			sessToken: userToken,
@@ -18,7 +19,7 @@ const PostCreate = ({ userToken, fetchDevelopers }) => {
 		};
 
 		await axios.post(
-			'http://localhost:3000/developers/createDeveloper',
+			`${REACT_APP_API_URL}/developers/createDeveloper`,
 			data,
 			axiosConfig
 		);

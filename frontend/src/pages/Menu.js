@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import DeveloperList from '../DeveloperList';
 import DeveloperCreate from '../DeveloperCreate';
 const Menu = ({ userToken }) => {
 	const [developers, setDevelopers] = useState({});
 
+	const { REACT_APP_API_URL } = process.env;
+
 	const fetchDevelopers = async () => {
 		const res = await axios.get(
-			'http://localhost:3000/developers/fetchAllDevelopers',
+			`${REACT_APP_API_URL}/developers/fetchAllDevelopers`,
 			{
 				headers: {
 					sessToken: userToken,

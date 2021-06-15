@@ -4,9 +4,11 @@ import { Button } from 'react-bootstrap';
 import './App.css';
 
 const AssetsList = ({ developerId, assets, fetchDevelopers, userToken }) => {
+	const { REACT_APP_API_URL } = process.env;
+
 	const removeAssetToDeveloper = async (assetId) => {
 		await axios.delete(
-			'http://localhost:3000/developers/deleteAssetToDeveloper',
+			`${REACT_APP_API_URL}/developers/deleteAssetToDeveloper`,
 			{
 				headers: {
 					sessToken: userToken,
