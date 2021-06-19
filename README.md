@@ -26,8 +26,8 @@ npm install
 npm start
 ```
 
+New Terminal
 ```
-cd ..
 cd frontend
 npm install
 npm start
